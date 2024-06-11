@@ -10,11 +10,8 @@ const location = "us-central1";
 const textModel = "gemini-1.0-pro";
 
 const vertexAI = new VertexAI({ project: project, location: location });
-
-// Instantiate Gemini text model
 const generativeModel = vertexAI.getGenerativeModel({
   model: textModel,
-  // Safety settings and generation config (optional)
   safetySettings: [
     {
       category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
@@ -29,9 +26,8 @@ async function chatLoop() {
   let fullResponse = "";
 
   while (true) {
-    // Get user input with colored prompt
     const userInput = await new Promise((resolve) => resolve(readLine()));
-    console.log(`\x1b[36mSen:> ${userInput}\x1b[0m`); // User input with cyan color
+    // console.log(`\x1b[36mSen:> ${userInput}\x1b[0m`);
 
     if (userInput.toLowerCase() === "exit") {
       console.log("Ending chat session.");
@@ -41,7 +37,6 @@ async function chatLoop() {
     const result = await chat.sendMessageStream(userInput);
     fullResponse = "";
 
-    // Process response stream and concatenate text
     for await (const item of result.stream) {
       fullResponse +=
         item.candidates &&
@@ -53,13 +48,13 @@ async function chatLoop() {
           : "";
     }
 
-    // Separate question and response with a unique separator string
+  
     console.log(
       `\x1b[35mGemini AI:> ${fullResponse}\x1b[0m\n\x1b[38;5;240m-----------------------------------------\x1b[0m`
-    ); // Separator with gray color
+    );
   }
 
-  chat.end(); // Explicitly end chat session after loop exits
+  chat.end();
 }
 
 function readLine() {
