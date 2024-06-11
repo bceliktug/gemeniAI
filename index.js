@@ -30,7 +30,7 @@ async function chatLoop() {
     // console.log(`\x1b[36mSen:> ${userInput}\x1b[0m`);
 
     if (userInput.toLowerCase() === "exit") {
-      console.log("Ending chat session.");
+      console.log("Chat'i kapat...");
       break;
     }
 
@@ -48,23 +48,22 @@ async function chatLoop() {
           : "";
     }
 
-  
     console.log(
       `\x1b[35mGemini AI:> ${fullResponse}\x1b[0m\n\x1b[38;5;240m-----------------------------------------\x1b[0m`
     );
   }
 
-  chat.end();
+  return;
 }
 
 function readLine() {
   const readline = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout,
+    input: process.stdin,  //yazı girdimizin alındığı yer
+    output: process.stdout, // yazımızı tekrar tuttuğumuz yer
   });
 
   return new Promise((resolve) => {
-    readline.question("> ", (answer) => {
+    readline.question("Sen:> ", (answer) => {
       readline.close();
       resolve(answer);
     });
